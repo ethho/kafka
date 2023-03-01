@@ -2,7 +2,9 @@ import os
 import sys
 
 def main(mult=1, niters=10_000, fp='/tmp/test.txt'):
-	msg = 'Hello, neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...\n'
+	mult = int(mult)
+	niters = int(niters)
+	msg = 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...\n'
 	print(f"Writing {mult=} * {niters=} copies of message:\n{msg}")
 	text = mult * msg
 	with open(fp, 'a') as f:
