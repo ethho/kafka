@@ -27,7 +27,8 @@ if [ "x$KAFKA_LOG4J_OPTS" = "x" ]; then
 fi
 
 if [ "x$KAFKA_HEAP_OPTS" = "x" ]; then
-  export KAFKA_HEAP_OPTS="-Xms256M -Xmx2G"
+  # export KAFKA_HEAP_OPTS="-Xms256M -Xmx2G"
+  export KAFKA_HEAP_OPTS="-Xms16M -Xmx32M"
 fi
 
 EXTRA_ARGS=${EXTRA_ARGS-'-name connectStandalone'}
