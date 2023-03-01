@@ -51,7 +51,8 @@ public class FileStreamSourceTask extends SourceTask {
     private char[] buffer = new char[1024];
     private int offset = 0;
     private String topic = null;
-    private int batchSize = FileStreamSourceConnector.DEFAULT_TASK_BATCH_SIZE;
+    // private int batchSize = FileStreamSourceConnector.DEFAULT_TASK_BATCH_SIZE;
+    private int batchSize = 5000;
 
     private Long streamOffset;
 
@@ -137,6 +138,7 @@ public class FileStreamSourceTask extends SourceTask {
 
                 if (nread > 0) {
                     offset += nread;
+                    log.info("FileStreamSourceTask buffer length is: {} bytes", buffer.length);
                     if (offset == buffer.length) {
                         char[] newbuf = new char[buffer.length * 2];
                         System.arraycopy(buffer, 0, newbuf, 0, buffer.length);
