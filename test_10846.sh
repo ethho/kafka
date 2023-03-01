@@ -71,30 +71,37 @@ function _log {
 
 # ------------------------------------------------------------------------------
 
-# Build jar
-./gradlew jar
+nohup sleep 10 &
+ps -A | grep sleep
+sleep 15
+ps -A | grep sleep
 
-# Initialize Kafka (separate terminal sessions)
-# Log to logs/server.loc
-bin/zookeeper-server-start.sh -daemon config/zookeeper.properties && sleep 5 && bin/kafka-server-start.sh -daemon config/server.properties && sleep 5 && bin/connect-standalone.sh -daemon config/connect-standalone.properties config/connect-file-source.properties
-sleep 3
-bin/kafka-server-start.sh -daemon config/server.properties
-sleep 300
 
-# Delete and recreate topic quickstart-events
-bin/kafka-topics.sh --delete --topic quickstart-events --bootstrap-server localhost:9092 || echo 'Failed to delete topic'
-bin/kafka-topics.sh --create --topic quickstart-events --bootstrap-server localhost:9092
+# # Build jar
+# ./gradlew jar
 
-# Start Kafka Connect in standalone mode
-bin/connect-standalone.sh config/connect-standalone.properties -daemon config/connect-file-source.properties
+# # Initialize Kafka (separate terminal sessions)
+# # Log to logs/server.loc
+# bin/zookeeper-server-start.sh -daemon config/zookeeper.properties && sleep 5 && bin/kafka-server-start.sh -daemon config/server.properties && sleep 5 && bin/connect-standalone.sh -daemon config/connect-standalone.properties config/connect-file-source.properties
+# sleep 3
+# bin/kafka-server-start.sh -daemon config/server.properties
+# sleep 300
 
-# Pass messages to the FileSourceConnector
-python3 write_tmp_test.py 100
+# # Delete and recreate topic quickstart-events
+# bin/kafka-topics.sh --delete --topic quickstart-events --bootstrap-server localhost:9092 || echo 'Failed to delete topic'
+# bin/kafka-topics.sh --create --topic quickstart-events --bootstrap-server localhost:9092
 
-# Clean up
-pkill -9 -f java
-sleep 1
-ps -A | grep java && _log '\nThe above java processes were not killed successfully' error
+# # Start Kafka Connect in standalone mode
+# bin/connect-standalone.sh config/connect-standalone.properties -daemon config/connect-file-source.properties
 
-# Inspect logs
-cat logs/connect.log | grep 'INFO FileStreamSourceTask buffer length is'
+# # Pass messages to the FileSourceConnector
+# python3 write_tmp_test.py 100
+
+# # Clean up
+# pkill -9 -f java
+# pkill -9 -f sleep
+# sleep 1
+# ps -A | grep java && _log '\nThe above java processes were not killed successfully' error
+
+# # Inspect logs
+# cat logs/connect.log | grep 'INFO FileStreamSourceTask buffer length is'
